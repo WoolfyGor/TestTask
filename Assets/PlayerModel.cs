@@ -9,10 +9,12 @@ public class PlayerModel : MonoBehaviour
 
     private Rigidbody2D rb;
     private readonly CompositeDisposable _disposables = new();
-
+    public bool paused = false;
+    private Vector2 savedVelocity;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
     }
 
     public void Initialize(Observable<Vector2> moveStream, Observable<Unit> jumpStream)
@@ -29,6 +31,8 @@ public class PlayerModel : MonoBehaviour
 
     private void Move(Vector2 direction)
     {
+        if (paused) return;
+
         rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
 
         if (direction.x > 0.1f)
@@ -41,8 +45,25 @@ public class PlayerModel : MonoBehaviour
         }
     }
 
+    public void HandlePause(bool state){
+        paused = state;
+        if(rb == null)
+            return;
+        if(paused){
+            savedVelocity = rb.linearVelocity;
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Static;
+
+        }
+        else{
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.linearVelocity = savedVelocity!=null?savedVelocity:Vector2.zero;
+        }
+    }
+
     private void Jump()
     {
+        if (paused) return;
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
