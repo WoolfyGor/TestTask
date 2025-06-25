@@ -5,8 +5,12 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour,InputSystem_Actions.IPlayerActions
 {
     private readonly ReactiveProperty<Vector2> _move = new();
+    private readonly ReactiveProperty<bool> _grounded = new();
     private readonly Subject<Unit> _jump= new();
     private readonly Subject<Collider2D> _onTriggerEnter2D = new();
+
+    [SerializeField] private float _groundCheckDistance = 0.2f;
+    [SerializeField] private LayerMask _groundLayer;
 
     public Observable<Vector2> OnMoveStream=>_move;
     public Observable<Unit> OnJumpStream =>_jump;
@@ -31,9 +35,16 @@ public class PlayerController : MonoBehaviour,InputSystem_Actions.IPlayerActions
     {
         if (context.performed)
         {
-            _jump.OnNext(Unit.Default);
+            Vector2 origin = transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(origin, -transform.up, _groundCheckDistance, _groundLayer);
+            _grounded.Value = hit.collider != null;
+            if (_grounded.Value)
+            {
+                _jump.OnNext(Unit.Default);
+            }
         }
     }
+
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -45,5 +56,13 @@ public class PlayerController : MonoBehaviour,InputSystem_Actions.IPlayerActions
         _move.Dispose();
         _jump.Dispose();
         _onTriggerEnter2D.Dispose();
+    }
+    void OnDrawGizmosSelected(){
+        Vector2 origin = transform.position;
+        Vector2 endPoint = origin - new Vector2(0,_groundCheckDistance);
+        RaycastHit2D hit = Physics2D.Raycast(origin, -transform.up, _groundCheckDistance, _groundLayer);
+
+        Gizmos.color = hit.collider != null?Color.green:Color.red;
+        Gizmos.DrawLine(origin, endPoint);
     }
 } 

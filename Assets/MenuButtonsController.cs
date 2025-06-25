@@ -8,9 +8,12 @@ public class MenuButtonsController : MonoBehaviour
     private Button _continueButton, _newGameButton, _exitButton;
 
 
-    void Awake()
+    async void Awake()
     {
         SetupButtons();
+        bool result = await SaveController.LoadAsync();
+        if(_continueButton!=null)
+            _continueButton.interactable = result;
     }
 
     void SetupButtons()
@@ -28,7 +31,8 @@ public class MenuButtonsController : MonoBehaviour
     }
     void ContinueGame()
     {
-
+        GameController.loadGame = true;
+        SceneManager.LoadScene("NewGameScene");
     }
 
     void StartNewGame() => SceneManager.LoadScene("NewGameScene");

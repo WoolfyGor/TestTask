@@ -25,6 +25,7 @@ public class CoinController : MonoBehaviour
 
     public int GetCoins() => coins;
 
+
     private void UpdateText()
     {
         if (coinText != null)
