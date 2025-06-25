@@ -33,7 +33,7 @@ public class MenuButtonsController : MonoBehaviour
     }
     void ContinueGame()
     {
-        GameController.loadGame = true;
+        GameController.IsGameLoaded = true;
         SceneManager.LoadScene("NewGameScene");
     }
 

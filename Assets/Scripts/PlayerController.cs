@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour,InputSystem_Actions.IPlayerActions
     public Observable<Vector2> OnMoveStream=>_move;
     public Observable<Unit> OnJumpStream =>_jump;
     public Observable<Unit> OnCoinCollect { get; private set; }
+    
 
     public void Initialize(){
         OnCoinCollect = _onTriggerEnter2D

@@ -1387,10 +1387,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52ea58dc0638604d8a00c96128fdee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadedData:
+  LoadedData:
     totalCollected: 0
     collectables: []
     playerPosition: {x: 0, y: 0, z: 0}
+    playerVelocity: {x: 0, y: 0}
 --- !u!114 &938064041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2188,10 +2189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d89f7a7bc8d0124197eb786d8c8fc65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 200967971}
-  playerModel: {fileID: 200967972}
-  coinController: {fileID: 1946257636}
-  pauseController: {fileID: 1293996008}
+  _playerController: {fileID: 200967971}
+  _playerModel: {fileID: 200967972}
+  _coinController: {fileID: 1946257636}
+  _pauseController: {fileID: 1293996008}
 --- !u!4 &1946257635
 Transform:
   m_ObjectHideFlags: 0

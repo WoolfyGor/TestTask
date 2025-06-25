@@ -10,7 +10,7 @@ public class PlayerModel : MonoBehaviour
     private Rigidbody2D rb;
     private readonly CompositeDisposable _disposables = new();
     public bool paused = false;
-    private Vector2 savedVelocity;
+    public Vector2 savedVelocity { get; private set; }
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -75,7 +75,7 @@ public class PlayerModel : MonoBehaviour
         if (paused) return;
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
-
+  
     private void OnDestroy()
     {
         _disposables.Dispose();

@@ -7,11 +7,11 @@ using Zenject;
 public class GameController : MonoBehaviour,InputSystem_Actions.IUIActions
 {
 
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private PlayerController _playerController;
 
-    [SerializeField] private PlayerModel playerModel;
-    [SerializeField] private CoinController coinController;
-    [SerializeField] private PauseController pauseController;
+    [SerializeField] private PlayerModel _playerModel;
+    [SerializeField] private CoinController _coinController;
+    [SerializeField] private PauseController _pauseController;
 
     [Inject]
     private ISaveController _saveController;
@@ -19,11 +19,11 @@ public class GameController : MonoBehaviour,InputSystem_Actions.IUIActions
     public static ReactiveProperty<bool> IsGamePaused = new(false);
     private InputSystem_Actions _actions;
 
-    public static bool loadGame = false;
+    public static bool IsGameLoaded = false;
 
     private void Awake()
     {
-        if (playerController == null || playerModel == null || coinController == null)
+        if (_playerController == null || _playerModel == null || _coinController == null)
             return;
         InitializeInput();
         InitializeModels();
@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour,InputSystem_Actions.IUIActions
     {
         if(_actions == null)
             _actions = new InputSystem_Actions();
-        _actions.Player.SetCallbacks(playerController);
+        _actions.Player.SetCallbacks(_playerController);
         _actions.UI.SetCallbacks(this);
         _actions.Enable();
     }
@@ -47,8 +47,8 @@ public class GameController : MonoBehaviour,InputSystem_Actions.IUIActions
     /// </summary>
     private void InitializeModels()
     {
-        playerModel.Initialize(playerController.OnMoveStream, playerController.OnJumpStream);
-        playerController.Initialize();
+        _playerModel.Initialize(_playerController.OnMoveStream, _playerController.OnJumpStream);
+        _playerController.Initialize();
     }
 
     /// <summary>
@@ -56,34 +56,34 @@ public class GameController : MonoBehaviour,InputSystem_Actions.IUIActions
     /// </summary>
     private void SubscribeToEvents()
     {
-        playerController.OnCoinCollect
+        _playerController.OnCoinCollect
             .Subscribe(async _ =>
             {
-                coinController.AddCoin();
-                await _saveController.SaveAsync(playerController);
+                _coinController.AddCoin();
+                await _saveController.SaveAsync(_playerController,_playerModel);
             })
             .AddTo(_disposables);
 
-        playerController.OnJumpStream
+        _playerController.OnJumpStream
             .ThrottleFirst(TimeSpan.FromSeconds(0.25))
             .Subscribe(_ => {})
             .AddTo(_disposables);
 
         IsGamePaused
             .Subscribe(async paused => {
-               playerModel.HandlePause(paused);
-               pauseController.SetPauseScreenVisible(paused);
+               _playerModel.HandlePause(paused);
+               _pauseController.SetPauseScreenVisible(paused);
                if (paused)
-                   await _saveController.SaveAsync(playerController);
+                   await _saveController.SaveAsync(_playerController, _playerModel);
             })
             .AddTo(_disposables);
     }
 
     private async void Start()
     {
-        if (loadGame){
+        if (IsGameLoaded){
             await _saveController.LoadAsync();
-            _saveController.LoadSave(playerController, coinController); 
+            _saveController.LoadSave(_playerController,  _playerModel, _coinController); 
         }
     }
     private void OnDestroy()
@@ -91,7 +91,7 @@ public class GameController : MonoBehaviour,InputSystem_Actions.IUIActions
         _disposables.Dispose();
         _actions.Disable();
         IsGamePaused.Value = false;
-        loadGame = false;
+        IsGameLoaded = false;
     }
 
     /// <summary>

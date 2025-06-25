@@ -16,13 +16,14 @@ public class FileSaveController : MonoBehaviour,ISaveController
     /// <summary>
     /// Загруженные данные сохранения.
     /// </summary>
-    public SaveData _loadedData;
+    public SaveData LoadedData;
 
     /// <summary>
     /// Асинхронно сохраняет данные игрока и коллекционных предметов.
     /// </summary>
     /// <param name="player">Контроллер игрока.</param>
-    public async UniTask SaveAsync(PlayerController player)
+    /// <param name="model">Модель игрока.</param>
+    public async UniTask SaveAsync(PlayerController player,PlayerModel model)
     {
         var all = CollectableController.GetAllCollectables();
         var data = new SaveData();
@@ -33,6 +34,8 @@ public class FileSaveController : MonoBehaviour,ISaveController
         }
         if (player != null)
             data.playerPosition = player.transform.position;
+        
+
         string json = JsonUtility.ToJson(data, true);
         using (var writer = new StreamWriter(SavePath, false))
         {
@@ -58,7 +61,7 @@ public class FileSaveController : MonoBehaviour,ISaveController
         var data = JsonUtility.FromJson<SaveData>(json);
         if (data == null)
             return false;
-        _loadedData = data;
+        LoadedData = data;
        
         return true;
     }
@@ -67,12 +70,13 @@ public class FileSaveController : MonoBehaviour,ISaveController
     /// Применяет загруженные данные к игроку и монеткам.
     /// </summary>
     /// <param name="player">Контроллер игрока.</param>
+    /// <param name="model">Модель игрока.</param>
     /// <param name="coins">Контроллер монет.</param>
-    public void LoadSave(PlayerController player,CoinController coins){
+    public void LoadSave(PlayerController player,PlayerModel model,CoinController coins){
 
         var all = CollectableController.GetAllCollectables();
         var dict = new Dictionary<int, bool>();
-        foreach (var c in _loadedData.collectables)
+        foreach (var c in LoadedData.collectables)
             dict[c.id] = c.isCollected;
         foreach (var c in all)
         {
@@ -81,10 +85,10 @@ public class FileSaveController : MonoBehaviour,ISaveController
         }
 
         if (player != null)
-            player.transform.position = _loadedData.playerPosition;
-        
+            player.transform.position = LoadedData.playerPosition;
+
         if (coins != null)
-            coins.SetCoins(_loadedData.totalCollected);
+            coins.SetCoins(LoadedData.totalCollected);
 
     }
 
@@ -105,7 +109,7 @@ public class FileSaveController : MonoBehaviour,ISaveController
     }
 
     void OnDestroy(){
-        _loadedData = null;
+        LoadedData = null;
     }
 }
 
@@ -143,4 +147,5 @@ public class SaveData
     /// Позиция игрока.
     /// </summary>
     public Vector3 playerPosition;
+
 }
