@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 316197135}
   - component: {fileID: 316197134}
   m_Layer: 0
-  m_Name: Coin (3)
+  m_Name: Coin
   m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e161290c64178bb448324c9a0a0e3121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 4
+  id: 1
 --- !u!58 &316197135
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -504,7 +504,7 @@ Transform:
   m_GameObject: {fileID: 316197133}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.6755724, y: 1.7421076, z: -548.3294}
+  m_LocalPosition: {x: -1.08, y: -1.31, z: -548.3294}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1013,7 +1013,7 @@ GameObject:
   - component: {fileID: 688521253}
   - component: {fileID: 688521252}
   m_Layer: 0
-  m_Name: Coin (2)
+  m_Name: Coin
   m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1031,7 +1031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e161290c64178bb448324c9a0a0e3121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 3
+  id: 2
 --- !u!58 &688521253
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1132,7 +1132,7 @@ Transform:
   m_GameObject: {fileID: 688521251}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5855724, y: 1.3821075, z: -548.3294}
+  m_LocalPosition: {x: 0.59, y: -0.54, z: -548.3294}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1391,7 +1391,6 @@ MonoBehaviour:
     totalCollected: 0
     collectables: []
     playerPosition: {x: 0, y: 0, z: 0}
-    playerVelocity: {x: 0, y: 0}
 --- !u!114 &938064041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1818,7 +1817,7 @@ GameObject:
   - component: {fileID: 1309290887}
   - component: {fileID: 1309290886}
   m_Layer: 0
-  m_Name: Coin (1)
+  m_Name: Coin
   m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1836,7 +1835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e161290c64178bb448324c9a0a0e3121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2
+  id: 3
 --- !u!58 &1309290887
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1937,7 +1936,7 @@ Transform:
   m_GameObject: {fileID: 1309290885}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.785572, y: -0.8278925, z: -548.3294}
+  m_LocalPosition: {x: 1.93, y: -0.22, z: -548.3294}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2370,7 +2369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e161290c64178bb448324c9a0a0e3121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1
+  id: 4
 --- !u!1 &1969280453
 GameObject:
   m_ObjectHideFlags: 0
